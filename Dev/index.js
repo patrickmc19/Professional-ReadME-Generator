@@ -1,17 +1,14 @@
-// TODO: Include packages needed for this application
 const inquirer = require('inquirer');
 const fs = require('fs');
 
-const readMeFile = ({ title, desc, inst, usage, cont, test, lic, git, email }) =>
-    `# ${title}
+const readMeTemplate = ({ title, desc, inst, usage, cont, test, lic, git, email }) => `
+    # ${title}
 
     ## Description
 
     ${desc}
     
-    ## Table of Contents (Optional)
-    
-    If your README is long, add a table of contents to make it easy for users to find what they need.
+    ## Table of Contents
     
     - [Installation](#installation)
     - [Usage](#usage)
@@ -25,14 +22,6 @@ const readMeFile = ({ title, desc, inst, usage, cont, test, lic, git, email }) =
     ## Usage
     
     ${usage}
-        
-    ## Credits
-    
-    List your collaborators, if any, with links to their GitHub profiles.
-    
-    If you used any third-party assets that require attribution, list the creators with links to their primary web presence in this section.
-    
-    If you followed tutorials, include links to those here as well.
     
     ## License
     
@@ -52,64 +41,85 @@ const readMeFile = ({ title, desc, inst, usage, cont, test, lic, git, email }) =
     
     To contribute, here's a link to my github account https://github.com/${git}
 
+    Here are the guidelines: ${cont}
+
     ## Contact Me
 
     For further questions or comments please email me - ${email}
     
     ## Tests
     
-    ${test}`
+    Here is the test command: ${test}`;
 
-// TODO: Create an array of questions for user input
-
-inquirer
-    .prompt(    {
+inquirer.prompt(
+    {
         type: 'input',
         message: 'What is the title of you readme?',
         name: 'title',
+        validate: (value) => { if (value) { return true } else { return 'Please write something to continue.' } },
     },
     {
         type: 'input',
         message: 'Please write a description for this readme.',
         name: 'desc',
+        validate: (value) => { if (value) { return true } else { return 'Please write something to continue.' } },
     },
     {
         type: 'input',
         message: 'Please explain the installion instructions.',
         name: 'install',
+        validate: (value) => { if (value) { return true } else { return 'Please write something to continue.' } },
     },
     {
         type: 'input',
         message: 'Please explain the usage information.',
         name: 'usage',
+        validate: (value) => { if (value) { return true } else { return 'Please write something to continue.' } },
     },
     {
         type: 'input',
         message: 'Please explain the contribution guidelines.',
         name: 'cont',
+        validate: (value) => { if (value) { return true } else { return 'Please write something to continue.' } },
     },
     {
         type: 'input',
         message: 'What is the test command?',
         name: 'test',
+        validate: (value) => { if (value) { return true } else { return 'Please write something to continue.' } },
     },
     {
-        type: 'choice'
+        type: 'list',
+        message: 'Which license should be used?',
+        name: 'lic',
+        choices: ['Apache License 2.0', 'GNU GPLv3', 'MIT License', 'ISC License', 'NA'],
+        validate: (value) => { if (value) { return true } else { return 'Please select something to continue.' } },
+    },
+    {
+        type: 'input',
+        message: 'What is your github username?',
+        name: 'git',
+        validate: (value) => { if (value) { return true } else { return 'Please write something to continue.' } },
+    },
+    {
+        type: 'input',
+        message: 'What is your email?',
+        name: 'email',
+        validate: (value) => { if (value) { return true } else { return 'Please write something to continue.' } },
+    },
+)
+    .then((answers) => {
+        const readMeInfo = readMeTemplate(answers);
+        // Function call to initialize app
+        createNewFile(title, readMeInfo);
     })
-    .then((answers)=> {
-        const readMeInfo = readmeFile(answers);
-
-        fs.writeFile('readme.md', readMeInfo, (err) => {
-            if (err) throw err;
-            console.log('The file has been created and saved!');
-          });
-    })
-
-// TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
 
 // TODO: Create a function to initialize app
-function init() {}
-
-// Function call to initialize app
-init();
+function createNewFile(fileName, data) {
+    // TODO: Create a function to write README file
+    fs.writeFile(`./${fileName.toLowerCase().split(' ').join('')}.md`, data, (err) => {
+        if (err) throw err;
+        console.log("Congratulations on creating your new README!");
+    }
+    )
+}
