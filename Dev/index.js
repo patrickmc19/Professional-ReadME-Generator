@@ -44,7 +44,7 @@ inquirer.prompt([
         type: 'list',
         message: 'Which license should be used?',
         name: 'lic',
-        choices: ['Apache 2.0', 'GPL 3.0', 'MIT', 'ISC', 'NA'],
+        choices: ['Apache 2.0', 'GPLv3', 'MIT', 'ISC', 'NA'],
         validate: (value) => { if (value) { return true } else { return 'Please select something to continue.' } },
     },
     {
@@ -63,7 +63,7 @@ inquirer.prompt([
     .then((answers) => {
         const readMeInfo = markdown(answers);
         // Function call to initialize app
-        createNewFile('readme.md', readMeInfo);
+        createNewFile("readme.md", readMeInfo);
     })
 
 // TODO: Create a function to initialize app
