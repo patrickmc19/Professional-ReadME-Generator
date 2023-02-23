@@ -1,57 +1,9 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
+const path = require('path');
+const markdown = require('./utils/generateMarkdown')
 
-const readMeTemplate = ({ title, desc, inst, usage, cont, test, lic, git, email }) => `
-    # ${title}
-
-    ## Description
-
-    ${desc}
-    
-    ## Table of Contents
-    
-    - [Installation](#installation)
-    - [Usage](#usage)
-    - [Credits](#credits)
-    - [License](#license)
-    
-    ## Installation
-    
-    Please do the following to install the application: ${inst}
-    
-    ## Usage
-    
-    ${usage}
-    
-    ## License
-    
-    The last section of a high-quality README file is the license. This lets other developers know what they can and cannot do with your project. If you need help choosing a license, refer to [https://choosealicense.com/](https://choosealicense.com/).
-    
-    ---
-    
-    🏆 The previous sections are the bare minimum, and your project will ultimately determine the content of this document. You might also want to consider adding the following sections.
-    
-    ## Badges
-    
-    ![badmath](https://img.shields.io/github/languages/top/lernantino/badmath)
-    
-    Badges aren't necessary, per se, but they demonstrate street cred. Badges let other developers know that you know what you're doing. Check out the badges hosted by [shields.io](https://shields.io/). You may not understand what they all represent now, but you will in time.
-        
-    ## How to Contribute
-    
-    To contribute, here's a link to my github account https://github.com/${git}
-
-    Here are the guidelines: ${cont}
-
-    ## Contact Me
-
-    For further questions or comments please email me - ${email}
-    
-    ## Tests
-    
-    Here is the test command: ${test}`;
-
-inquirer.prompt(
+inquirer.prompt([
     {
         type: 'input',
         message: 'What is the title of you readme?',
@@ -66,7 +18,7 @@ inquirer.prompt(
     },
     {
         type: 'input',
-        message: 'Please explain the installion instructions.',
+        message: 'Please explain the installation instructions.',
         name: 'install',
         validate: (value) => { if (value) { return true } else { return 'Please write something to continue.' } },
     },
@@ -92,7 +44,7 @@ inquirer.prompt(
         type: 'list',
         message: 'Which license should be used?',
         name: 'lic',
-        choices: ['Apache License 2.0', 'GNU GPLv3', 'MIT License', 'ISC License', 'NA'],
+        choices: ['Apache 2.0', 'GPL 3.0', 'MIT', 'ISC', 'NA'],
         validate: (value) => { if (value) { return true } else { return 'Please select something to continue.' } },
     },
     {
@@ -107,17 +59,17 @@ inquirer.prompt(
         name: 'email',
         validate: (value) => { if (value) { return true } else { return 'Please write something to continue.' } },
     },
-)
+])
     .then((answers) => {
-        const readMeInfo = readMeTemplate(answers);
+        const readMeInfo = markdown(answers);
         // Function call to initialize app
-        createNewFile(title, readMeInfo);
+        createNewFile('readme.md', readMeInfo);
     })
 
 // TODO: Create a function to initialize app
 function createNewFile(fileName, data) {
     // TODO: Create a function to write README file
-    fs.writeFile(`./${fileName.toLowerCase().split(' ').join('')}.md`, data, (err) => {
+    fs.appendFile(path.join(process.cwd(),fileName), data, (err) => {
         if (err) throw err;
         console.log("Congratulations on creating your new README!");
     }
