@@ -1,8 +1,8 @@
-# yes
-
+# Daily Planner
+  undefined
   ## Description
 
-  yes
+  A simple calendar app used to track work day tasks.
   
   ## Table of Contents
   
@@ -16,22 +16,22 @@
   
   ## Usage
   
-  yes
+  none
   
   ## License
-  undefined
+ 
   Apache 2.0
 
-  ## How to Contribute
-  
-  To contribute, here's a link to my github account https://github.com/yes
+  ## Contributing
 
-  Here are the guidelines: yes
-
-  ## Contact Me
-
-  For further questions or comments please email me - ues
+  Here are the contribution guidelines: none
   
   ## Tests
   
-  Here is the test command: yes
+  Here is the test command: test
+
+  ## Questions
+
+  For further questions or comments please email me: patrickgmcknight@gmail.com
+  
+  Here's a link to my github account: https://github.com/patrickmc19
